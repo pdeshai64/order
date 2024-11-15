@@ -23,7 +23,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class OrderServiceTest {
@@ -47,6 +49,10 @@ public class OrderServiceTest {
         Mockito.when(orderItemDto.getUnitPrice()).thenReturn(BigDecimal.ONE);
         Mockito.when(orderItemDto.getQuantity()).thenReturn(1);
         Mockito.when(orderItemDto.getProductCode()).thenReturn("abc");
+
+        Order order = new Order();
+        order.setStatus(OrderStatus.CREATED);
+        when(orderRepo.save(any())).thenReturn(order);
 
         OrderDto orderDto = new OrderDto();
         orderDto.setItems(List.of(orderItemDto));
